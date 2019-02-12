@@ -1,0 +1,171 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Online Notepad - free at ZNotepad.com</title>
+    <meta name="description" content="ZNotepad.com is your online notepad on the web. Best of all - ZNotepad is a fast, clean, simple to use and FREE online web notepad.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        #editor-container {
+            height: 350px;
+        }
+
+        article.post {
+            margin: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #E6EAEE;
+        }
+
+        article.post a {
+            font-weight: 500;
+        }
+
+        article.post a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body class="has-navbar-fixed-top">
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience and security.</p>
+<![endif]-->
+<nav class="navbar has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img alt="ZNotepad" src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Online Notepad</h1>
+            <h2 class="subtitle">
+                Free Online Notepad
+            </h2>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <form action="/" method="post">
+            <div class="columns">
+                <div class="column is-8">
+                    <div class="columns">
+                        <div class="column is-12">
+                            <div class="control">
+                                <input value="{{ note.title }}" name="title" class="input" type="text" placeholder="Note Title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-12">
+                            <button type="submit" class="button is-primary">Save</button>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div id="toolbar">
+                            <button class="ql-bold">Bold</button>
+                            <button class="ql-italic">Italic</button>
+                        </div>
+                        <input value="{{ note.content | safe }}" id="content" name="content" type="hidden">
+                        <div id="editor-container">{{ note.content | safe }}</div>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="box content">
+                        <p class=" has-text-weight-bold menu-label">Newest notes</p>
+                        {% for note in newestNotes %}
+                            <article class="post">
+                                <a href="/notes/{{ note.slug_title }}" class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70)}}</a>
+                                <p class="has-text-right">
+                                    <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
+                                </p>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <span>Simple is the best © 2019 ZNotepad.com</span>
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<script>
+    var editor = new Quill('#editor-container', {
+        modules: { toolbar: '#toolbar' },
+        theme: 'snow',
+        placeholder: 'Compose an epic...',
+    });
+
+    editor.on('text-change', function () {
+        document.getElementById('content').value = editor.root.innerHTML;
+    });
+
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
+
+</html>

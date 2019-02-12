@@ -1,32 +1,4 @@
 {
-  "devDependencies": {
-    "apache-server-configs": "^3.1.0",
-    "archiver": "^3.0.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "del": "^3.0.0",
-    "eslint": "^5.13.0",
-    "eslint-config-recommended": "^4.0.0",
-    "eslint-plugin-mocha": "^5.2.1",
-    "glob": "^7.1.3",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-eslint": "^5.0.0",
-    "gulp-header": "^2.0.7",
-    "gulp-jscs": "^4.1.0",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-replace": "^1.0.0",
-    "jquery": "3.3.1",
-    "main.css": "1.0.0",
-    "mocha": "^5.2.0",
-    "modernizr": "3.6.0",
-    "normalize.css": "8.0.1",
-    "run-sequence": "^2.2.1",
-    "ssri": "^6.0.1",
-    "strip-json-comments": "^2.0.1"
-  },
   "engines": {
     "node": ">=6",
     "npm": ">=3"
@@ -64,5 +36,19 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/haipc/znotepad.com.git"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.2",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.11",
+    "nunjucks": "^3.1.7",
+    "shortid": "^2.2.14",
+    "shortid-36": "^0.1.2",
+    "slugify": "^1.3.4"
   }
 }

@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Hai Le Phu -- Creator -- https://twitter.com/vietworm
+
+# THANKS
+
+    My mind
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5
+    Nginx, jQuery, Modernizr, Normalize.css

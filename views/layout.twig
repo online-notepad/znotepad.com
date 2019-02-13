@@ -143,14 +143,6 @@
     editor.on('text-change', function () {
         document.getElementById('content').value = editor.root.innerHTML;
     });
-
-    window.ga = function () {
-        ga.q.push(arguments)
-    };
-    ga.q = [];
-    ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto');
-    ga('send', 'pageview')
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
 </body>

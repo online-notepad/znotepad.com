@@ -34,7 +34,7 @@ app.route('/')
     .get((req, res) => {
         NoteModel.find()
             .sort({created_at: -1})
-            .limit(6)
+            .limit(8)
             .select('title slug_title created_at visitor_count')
             .exec((err, notes) => {
                 res.render('index.twig', {
@@ -43,9 +43,16 @@ app.route('/')
             })
     })
     .post((req, res) => {
-        const title = req.body.title;
+        const title = req.body.title || 'notefile.txt';
         const content = req.body.content;
-        const slugTitle = slugify(title) + '-' + shortid.generate().toString().toLowerCase();
+
+        let slugTitle = shortid.generate().toString().toLowerCase();
+        if (title) {
+            const uuid = slugTitle;
+            slugTitle = slugify(title, {lower: true});
+            slugTitle = slugTitle.substring(0, 125) + '-' + uuid;
+        }
+
         const date = new Date();
 
         const newNote = new NoteModel({
@@ -75,7 +82,7 @@ app.get('/notes/:slug_title', (req, res) => {
         }),
         NoteModel.find()
             .sort({created_at: -1})
-            .limit(6)
+            .limit(8)
             .select('title slug_title created_at visitor_count')
     ]).then(response => {
         const note = response[0];

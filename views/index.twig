@@ -3,25 +3,31 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Online Notepad - free at ZNotepad.com</title>
-    <meta name="description" content="ZNotepad.com is your online notepad on the web. Best of all - ZNotepad is a fast, clean, simple to use and FREE online web notepad.">
+    <title>Notepad Online - Write notes online</title>
+    <meta itemprop="name" content="ZNotepad"/>
+    <meta name="description"
+          content="ZNotepad is a fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="notepad online"/>
+
+    <meta name="theme-color" content="#fafafa">
 
     <link rel="manifest" href="/site.webmanifest">
     <link rel="apple-touch-icon" href="/icon.png">
-    <!-- Place favicon.ico in the root directory -->
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <link rel="stylesheet" href="/css/bulma.min.css">
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <style>
         body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            background-color: #fff;
         }
 
         #editor-container {
             height: 350px;
+            font-size: 14px;
         }
 
         article.post {
@@ -31,17 +37,25 @@
         }
 
         article.post a {
-            font-weight: 500;
+            font-weight: 600;
         }
 
         article.post a:hover {
             text-decoration: underline;
         }
 
+        article.post small {
+            font-size: 12px;
+        }
+
+        .checkbox.private-mode {
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+
     </style>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
-    <meta name="theme-color" content="#fafafa">
 </head>
 
 <body class="has-navbar-fixed-top">
@@ -56,7 +70,8 @@
                 <img alt="ZNotepad" src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -83,10 +98,8 @@
 <section class="hero is-primary">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Online Notepad</h1>
-            <h2 class="subtitle">
-                Free Online Notepad
-            </h2>
+            <h1 class="title">Notepad Online</h1>
+            <h2 class="subtitle">Free online note trusted by millions</h2>
         </div>
     </div>
 </section>
@@ -98,14 +111,27 @@
                 <div class="column is-8">
                     <div class="columns">
                         <div class="column is-12">
+                            <h2 class="title is-size-4 is-spaced">What is Notepad online?</h2>
+                            <p class="is-size-6">It's free Online note document or bookmarks your information. You can search and share
+                                your notes quickly to everyone. Click <a href="#">DMCA Report</a> to report copyrighted content or information you want to delete on website.</p>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-12">
                             <div class="control">
-                                <input value="{{ note.title }}" name="title" class="input" type="text" placeholder="Note Title">
+                                <input maxlength="125" autocomplete="off" value="{{ note.title }}" name="title" class="input" type="text"
+                                       placeholder="Note Title">
                             </div>
                         </div>
                     </div>
                     <div class="columns">
                         <div class="column is-12">
                             <button type="submit" class="button is-primary">Save</button>
+                            <br>
+                            <label class="checkbox private-mode">
+                                <input type="checkbox">
+                                Do not show note public
+                            </label>
                         </div>
                     </div>
                     <div class="editor-wrapper">
@@ -119,10 +145,12 @@
                 </div>
                 <div class="column is-4">
                     <div class="box content">
-                        <p class=" has-text-weight-bold menu-label">Newest notes</p>
+                        <p class="is-size-6 has-text-weight-bold menu-label"><i class="far fa-sticky-note"></i> Newest
+                            notes</p>
                         {% for note in newestNotes %}
                             <article class="post">
-                                <a href="/notes/{{ note.slug_title }}" class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70)}}</a>
+                                <a href="/notes/{{ note.slug_title }}"
+                                   class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70) }}</a>
                                 <p class="has-text-right">
                                     <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
                                 </p>
@@ -148,7 +176,7 @@
 <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 <script>
     var editor = new Quill('#editor-container', {
-        modules: { toolbar: '#toolbar' },
+        modules: {toolbar: '#toolbar'},
         theme: 'snow',
         placeholder: 'Compose an epic...',
     });

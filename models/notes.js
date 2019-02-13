@@ -8,6 +8,8 @@ const Note = new Schema({
 
     visitor_count: Number,
 
+    is_private: Boolean,
+
     day: Number,
     month: Number,
     year: Number

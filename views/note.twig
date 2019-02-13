@@ -1,4 +1,12 @@
-{% extends "layout.twig" %}
+{% extends 'layout.twig' %}
+
+{% block styles %}
+    <style>
+        .share-url input {
+            cursor: copy;
+        }
+    </style>
+{% endblock %}
 
 {% block editor %}
     <div class="column is-8">
@@ -21,12 +29,39 @@
         </div>
         <div class="columns">
             <div class="column is-12">
+
                 <button type="submit" class="button is-primary">Save</button>
                 <br>
                 <label class="checkbox private-mode">
-                    <input name="is_private" type="checkbox">
+                    <input name="is_private" type="checkbox" {% if note.is_private %} checked {% endif %}>
                     Don't show note public
                 </label>
+            </div>
+        </div>
+        <div class="columns has-background-light">
+            <div class="column is-12">
+                <label class="label">Share URL</label>
+                <div class="field is-grouped">
+                    <div class="control is-expanded">
+                        <div class="control is-expanded has-icons-left has-icons-right">
+
+                            <label class="share-url">
+                                <input readonly class="input is-success" type="text" value="https://znotepad.com/notes/{{ note.slug_title }}">
+                            </label>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-link"></i>
+                            </span>
+                            <span class="icon is-small is-right">
+                                    <i class="far fa-copy"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="control">
+                        <a href="https://znotepad.com/notes/{{ note.slug_title }}" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
         <div class="editor-wrapper">

@@ -1,0 +1,158 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Notepad Online - Write notes online</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <meta itemprop="name" content="ZNotepad"/>
+    <meta name="description"
+          content="ZNotepad is a fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="notepad online"/>
+
+    <meta name="theme-color" content="#fafafa">
+
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            background-color: #fff;
+        }
+
+        .navbar-brand a {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .navbar-brand a:hover {
+            color: #4a4a4a;
+        }
+
+        #editor-container {
+            height: 350px;
+            font-size: 14px;
+        }
+
+        article.post {
+            margin: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #E6EAEE;
+        }
+
+        article.post a {
+            font-weight: 600;
+        }
+
+        article.post a:hover {
+            text-decoration: underline;
+        }
+
+        article.post small {
+            font-size: 12px;
+        }
+
+        .checkbox.private-mode {
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+
+    </style>
+    {% block styles %} {% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+</head>
+
+<body class="has-navbar-fixed-top">
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience and security.</p>
+<![endif]-->
+<nav class="navbar has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                ZNotepad
+            </a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Notepad Online</h1>
+            <h2 class="subtitle">Free online note trusted by millions</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <form action="/" method="post">
+            <div class="columns">
+
+                {% block editor %} {% endblock %}
+
+                <div class="column is-4">
+                    <div class="box content">
+                        <p class="is-size-6 has-text-weight-bold menu-label"><i class="far fa-sticky-note"></i> Newest
+                            notes</p>
+                        {% for note in newestNotes %}
+                            <article class="post">
+                                <a href="/notes/{{ note.slug_title }}"
+                                   class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70) | default('notefile.txt', true) }}</a>
+                                <p class="has-text-right">
+                                    <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
+                                </p>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <span>Powerful sharing tool © 2019 ZNotepad.com</span>
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<script>
+    var editor = new Quill('#editor-container', {
+        modules: {toolbar: '#toolbar'},
+        theme: 'snow',
+        placeholder: 'Compose an epic...',
+    });
+
+    editor.on('text-change', function () {
+        document.getElementById('content').value = editor.root.innerHTML;
+    });
+
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
+
+</html>

@@ -43,9 +43,13 @@ app.route('/')
             })
     })
     .post((req, res) => {
-        const title = req.body.title || 'notefile.txt';
+        console.log(123)
+        const title = req.body.title;
         const content = req.body.content;
-
+        let isPrivate = req.body.is_private;
+        if (isPrivate) {
+            isPrivate = true;
+        }
         let slugTitle = shortid.generate().toString().toLowerCase();
         if (title) {
             const uuid = slugTitle;
@@ -60,6 +64,7 @@ app.route('/')
             slug_title: slugTitle,
             content: content,
             visitor_count: 0,
+            is_private: isPrivate,
             day: date.getDate(),
             month: date.getMonth() + 1,
             year: date.getFullYear()
@@ -67,6 +72,7 @@ app.route('/')
 
         newNote.save((err, note) => {
             if (err) {
+                console.log(err);
                 return res.render('error.twig');
             }
             return res.redirect(302, `/notes/${note.slug_title}`);
@@ -89,7 +95,7 @@ app.get('/notes/:slug_title', (req, res) => {
         const newestNotes = response[1];
 
         if (note) {
-            return res.render('index.twig', {
+            return res.render('note.twig', {
                 note: note,
                 newestNotes: newestNotes
             });

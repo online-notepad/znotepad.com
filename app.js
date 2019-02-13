@@ -32,7 +32,7 @@ env.addFilter('moment', (time, patternFormat) => {
 
 app.route('/')
     .get((req, res) => {
-        NoteModel.find()
+        NoteModel.find({ is_private: { $ne: true } })
             .sort({created_at: -1})
             .limit(8)
             .select('title slug_title created_at visitor_count')
@@ -85,7 +85,7 @@ app.get('/notes/:slug_title', (req, res) => {
                 visitor_count: 1
             }
         }),
-        NoteModel.find()
+        NoteModel.find({ is_private: { $ne: true } })
             .sort({created_at: -1})
             .limit(8)
             .select('title slug_title created_at visitor_count')

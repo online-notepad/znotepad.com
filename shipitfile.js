@@ -9,14 +9,12 @@ module.exports = shipit => {
 
     shipit.initConfig({
         default: {
-            workspace: 'files',
             deployTo: '/home/mediawant/public_html/znotepad.com',
             repositoryUrl: 'git@github.com:haipc/znotepad.com.git',
             branch: 'master',
             keepReleases: 3,
             ignores: ['.git', 'node_modules'],
-            deleteOnRollback: false,
-            shallowClone: false
+            deleteOnRollback: false
         },
         production: {
             servers: 'mediawant@mediago',

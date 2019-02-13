@@ -13,7 +13,6 @@ require('./config/database');
 const NoteModel = require('./models/notes');
 
 const app = express();
-app.use(express.static("public"));
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies

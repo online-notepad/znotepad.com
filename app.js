@@ -43,7 +43,6 @@ app.route('/')
             })
     })
     .post((req, res) => {
-        console.log(123)
         const title = req.body.title;
         const content = req.body.content;
         let isPrivate = req.body.is_private;

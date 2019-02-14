@@ -123,7 +123,7 @@
                         {% for note in newestNotes %}
                             <article class="post">
                                 <a href="/notes/{{ note.slug_title }}"
-                                   class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70) | default('untitled', true) }}</a>
+                                   class="is-size-6 has-text-grey-dark" {% if not note.title | length  %} style="color: #9E9E9E !important;" {% endif %}>{{ note.title | truncate(70) | default('untitled', true) }}</a>
                                 <p class="has-text-right">
                                     <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
                                 </p>

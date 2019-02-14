@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% set title = note.title + ' - ZNotepad.com' | trim | safe %}
+{% set title = (note.title | trim) + ' - ZNotepad.com' | safe %}
 {% set description = note.content_plaintext | truncate(150) | safe | striptags %}
 
 {% block SEO %}

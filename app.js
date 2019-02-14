@@ -55,17 +55,19 @@ app.route('/new-note')
             })
     })
     .post((req, res) => {
-        const title = req.body.title;
+        let title = req.body.title;
         const content = req.body.content;
+        const contentPlaintext = req.body.content_plaintext;
         let isPrivate = req.body.is_private;
         if (isPrivate) {
             isPrivate = true;
         }
         let slugTitle = shortid.generate().toString().toLowerCase();
         if (title) {
+            title = title.substring(0, 70);
             const uuid = slugTitle;
             slugTitle = slugify(title, {lower: true});
-            slugTitle = slugTitle.substring(0, 125) + '-' + uuid;
+            slugTitle = slugTitle.substring(0, 70) + '-' + uuid;
         }
 
         const date = new Date();
@@ -74,6 +76,7 @@ app.route('/new-note')
             title: title,
             slug_title: slugTitle,
             content: content,
+            content_plaintext: contentPlaintext,
             visitor_count: 0,
             is_private: isPrivate,
             day: date.getDate(),

@@ -3,13 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Notepad Online - Write notes online</title>
+    <title>{{ title | default('Notepad Online - Write notes online') }}</title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <meta itemprop="name" content="ZNotepad"/>
-    <meta name="description"
-          content="Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.">
+    <meta name="description" content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="notepad online"/>
     <meta name="referrer" content="never">
@@ -162,6 +161,7 @@
 
     editor.on('text-change', function () {
         document.getElementById('content').value = editor.root.innerHTML;
+        document.getElementById('content-plaintext').value = editor.getText();
     });
 </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->

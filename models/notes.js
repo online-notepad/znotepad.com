@@ -5,6 +5,7 @@ const Note = new Schema({
     title: String,
     slug_title: String,
     content: String,
+    content_plaintext: String,
 
     visitor_count: Number,
 

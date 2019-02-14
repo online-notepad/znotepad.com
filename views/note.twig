@@ -1,5 +1,8 @@
 {% extends 'layout.twig' %}
 
+{% set title = note.title + ' - ZNotepad.com' | safe %}
+{% set description = note.content_plaintext | truncate(150) | safe | striptags %}
+
 {% block SEO %}
     <meta property="ia:markup_url" content="https://znotepad.com/notes/{{ note.slug_title }}">
     <meta property="og:type" content="article"/>
@@ -16,14 +19,12 @@
 {% block editor %}
     <div class="column is-8">
         <div class="columns">
-            <div class="columns">
-                {% include 'partials/what-is-notepad.twig' %}
-            </div>
+            {% include 'partials/what-is-notepad.twig' %}
         </div>
         <div class="columns">
             <div class="column is-12">
                 <div class="control">
-                    <input maxlength="125" autocomplete="off" value="{{ note.title }}" name="title"
+                    <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
                            class="input" type="text"
                            placeholder="Note Title">
                 </div>
@@ -73,6 +74,7 @@
                         <button class="ql-bold">Bold</button>
                         <button class="ql-italic">Italic</button>
                     </div>
+                    <input id="content-plaintext" name="content_plaintext" type="hidden">
                     <input id="content" name="content" type="hidden">
                     <div id="editor-container">{{ note.content | safe }}</div>
                 </div>

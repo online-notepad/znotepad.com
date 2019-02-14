@@ -70,10 +70,7 @@
         <div class="columns">
             <div class="column is-12">
                 <div class="editor-wrapper">
-                    <div id="toolbar">
-                        <button class="ql-bold">Bold</button>
-                        <button class="ql-italic">Italic</button>
-                    </div>
+                    {% include 'partials/editor-toolbar.twig' %}
                     <input id="content-plaintext" name="content_plaintext" type="hidden">
                     <input id="content" name="content" type="hidden">
                     <div id="editor-container">{{ note.content | safe }}</div>

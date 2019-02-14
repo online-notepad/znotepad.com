@@ -108,19 +108,22 @@
 
 <section class="section">
     <div class="container">
-        <form action="/" method="post">
+        <form action="/new-note" method="post">
             <div class="columns">
 
                 {% block editor %} {% endblock %}
 
                 <div class="column is-4">
+                    <div class="field">
+                        <a href="/new-note" class="button is-link"><i class="fas fa-edit"></i> &nbsp; New note</a>
+                    </div>
                     <div class="box content">
                         <p class="is-size-6 has-text-weight-bold menu-label"><i class="far fa-sticky-note"></i> Newest
                             notes</p>
                         {% for note in newestNotes %}
                             <article class="post">
                                 <a href="/notes/{{ note.slug_title }}"
-                                   class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70) | default('notefile.txt', true) }}</a>
+                                   class="is-size-6 has-text-grey-dark">{{ note.title | truncate(70) | default('untitled', true) }}</a>
                                 <p class="has-text-right">
                                     <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
                                 </p>

@@ -35,7 +35,7 @@
         <div class="columns">
             <div class="column is-12">
 
-                <button type="submit" class="button is-primary">Save</button>
+                <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp; Save</button>
                 <br>
                 <label class="checkbox private-mode">
                     <input name="is_private" type="checkbox" {% if note.is_private %} checked {% endif %}>
@@ -69,13 +69,27 @@
                 </div>
             </div>
         </div>
-        <div class="editor-wrapper">
-            <div id="toolbar">
-                <button class="ql-bold">Bold</button>
-                <button class="ql-italic">Italic</button>
+        <div class="columns">
+            <div class="column is-12">
+                <div class="editor-wrapper">
+                    <div id="toolbar">
+                        <button class="ql-bold">Bold</button>
+                        <button class="ql-italic">Italic</button>
+                    </div>
+                    <input id="content" name="content" type="hidden">
+                    <div id="editor-container">{{ note.content | safe }}</div>
+                </div>
             </div>
-            <input id="content" name="content" type="hidden">
-            <div id="editor-container">{{ note.content | safe }}</div>
         </div>
+        <div class="columns">
+            <div class="column is-12">
+                <div class="message is-warning">
+                    <div class="message-body">
+                        <p>Your note will be stored forever until we receive <a href="mailto:support@znotepad.com">DMCA report</a> to delete about the note.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 {% endblock %}

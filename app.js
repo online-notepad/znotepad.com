@@ -30,7 +30,19 @@ env.addFilter('moment', (time, patternFormat) => {
     return '';
 });
 
-app.route('/')
+app.get('/', (req, res) => {
+    NoteModel.find({ is_private: { $ne: true } })
+        .sort({created_at: -1})
+        .limit(8)
+        .select('title slug_title created_at visitor_count')
+        .exec((err, notes) => {
+            res.render('index.twig', {
+                newestNotes: notes || []
+            });
+        })
+});
+
+app.route('/new-note')
     .get((req, res) => {
         NoteModel.find({ is_private: { $ne: true } })
             .sort({created_at: -1})

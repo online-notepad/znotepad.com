@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const helmet = require('helmet');
+const xssFilter = require('x-xss-protection')
 const bodyParser = require('body-parser');
 const slugify = require('slugify');
 const shortid = require('shortid-36');
@@ -14,6 +16,10 @@ const NoteModel = require('./models/notes');
 
 const app = express();
 app.use(express.static("public"));
+
+app.use(helmet());
+app.disable('x-powered-by');
+app.use(xssFilter({ setOnOldIE: true }));
 
 app.use(bodyParser.json({limit: '10mb', extended: true})); // support json encoded bodies
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })); // support encoded bodies

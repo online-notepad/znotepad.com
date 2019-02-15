@@ -15,8 +15,8 @@ const NoteModel = require('./models/notes');
 const app = express();
 app.use(express.static("public"));
 
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json({limit: '10mb', extended: true})); // support json encoded bodies
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })); // support encoded bodies
 
 const env = new ViewEngine(app, "views");
 

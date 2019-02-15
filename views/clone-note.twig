@@ -1,11 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% if note.title %}
-    {% set title = note.title | trim | safe + ' - ZNotepad.com' %}
-{% else %}
-    {% set title = 'untitled - ZNotepad.com' %}
-{% endif %}
-
+{% set title = (note.title | trim | default('untitled', true)) + ' - ZNotepad.com' | safe %}
 {% set description = note.content_plaintext | truncate(150) | safe | striptags %}
 
 {% block SEO %}
@@ -29,8 +24,8 @@
         <div class="columns">
             <div class="column is-12">
                 <div class="control">
-                    <input readonly disabled maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
-                           class="input is-success" type="text"
+                    <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
+                           class="input" type="text"
                            placeholder="Note Title">
                 </div>
             </div>
@@ -38,7 +33,7 @@
         <div class="columns">
             <div class="column is-12">
 
-                <a href="/new-note?base_note={{ note.slug_title }}" class="button is-info"><i class="fas fa-clone"></i>&nbsp;Clone note</a>
+                <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp; Save</button>
                 <br>
                 <label class="checkbox private-mode">
                     <input name="is_private" type="checkbox" {% if note.is_private %} checked {% endif %}>
@@ -48,7 +43,7 @@
         </div>
         <div class="columns has-background-light">
             <div class="column is-12">
-                <label class="label">Share URL</label>
+                <label class="label">Base Note URL</label>
                 <div class="field is-grouped">
                     <div class="control is-expanded">
                         <div class="control is-expanded has-icons-left has-icons-right">
@@ -74,8 +69,13 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <label class="label">Content</label>
-                <div class="box">{{ note.content | safe }}</div>
+                <div class="editor-wrapper">
+                    {% include 'partials/editor-toolbar.twig' %}
+                    <input id="content-plaintext" name="content_plaintext" type="hidden">
+                    <input id="content" name="content" type="hidden">
+                    <input name="base_note" type="hidden">
+                    <div id="editor-container">{{ note.content | safe }}</div>
+                </div>
             </div>
         </div>
         <div class="columns">

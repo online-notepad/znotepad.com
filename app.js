@@ -44,20 +44,48 @@ app.get('/', (req, res) => {
 
 app.route('/new-note')
     .get((req, res) => {
-        NoteModel.find({ is_private: { $ne: true } })
-            .sort({created_at: -1})
-            .limit(8)
-            .select('title slug_title created_at visitor_count')
-            .exec((err, notes) => {
-                res.render('index.twig', {
-                    newestNotes: notes || []
+
+        const baseNote = req.query.base_note;
+
+        if (baseNote) {
+            Promise.all([
+                NoteModel.findOne({ slug_title: baseNote }),
+                NoteModel.find({ is_private: { $ne: true } })
+                    .sort({created_at: -1})
+                    .limit(8)
+                    .select('title slug_title created_at visitor_count')
+            ]).then(responses => {
+                const note = responses[0];
+                const newestNotes = responses[1];
+
+                if (note) {
+                    return res.render('clone-note.twig', {
+                        note: note,
+                        newestNotes: newestNotes || []
+                    });
+                }
+                return res.render('write-note.twig', {
+                    newestNotes: newestNotes || []
                 });
             })
+        } else {
+            NoteModel.find({ is_private: { $ne: true } })
+                .sort({created_at: -1})
+                .limit(8)
+                .select('title slug_title created_at visitor_count')
+                .exec((err, newestNotes) => {
+                    res.render('write-note.twig', {
+                        newestNotes: newestNotes || []
+                    });
+                })
+        }
     })
     .post((req, res) => {
         let title = req.body.title;
         const content = req.body.content;
         const contentPlaintext = req.body.content_plaintext;
+        const baseNote = req.body.base_note;
+
         let isPrivate = req.body.is_private;
         if (isPrivate) {
             isPrivate = true;
@@ -79,6 +107,7 @@ app.route('/new-note')
             content_plaintext: contentPlaintext,
             visitor_count: 0,
             is_private: isPrivate,
+            base_note: baseNote,
             day: date.getDate(),
             month: date.getMonth() + 1,
             year: date.getFullYear()

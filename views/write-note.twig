@@ -1,0 +1,60 @@
+{% extends "layout.twig" %}
+
+{% set title = "Write a new note - ZNotepad.com" %}
+{% set description = "In Notes on ZNotepad, add checklists, bulleted lists, text formatting, and web links to your notes." %}
+
+{% block SEO %}
+    <meta property="ia:markup_url" content="https://znotepad.com/">
+    <meta property="og:type" content="website"/>
+
+{% endblock %}
+
+{% block editor %}
+    <div class="column is-8">
+        <div class="columns">
+            <div class="column is-12">
+                <h2 class="title is-size-4 is-spaced">Write a new note</h2>
+                <p class="is-size-6">You can write notes and change the formatting in a note—for example, change the font size or alignment, or make text <span class="has-text-weight-bold">bold</span>.
+                    You can also apply paragraph styles, add checklists, and specify the paragraph style that’s used when you start typing a new note.</p>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <div class="control">
+                    <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
+                           class="input" type="text"
+                           placeholder="Note Title">
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                <br>
+                <label class="checkbox private-mode">
+                    <input name="is_private" type="checkbox">
+                    Don't show note public
+                </label>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <div class="editor-wrapper">
+                    {% include 'partials/editor-toolbar.twig' %}
+                    <input value="{{ note.content_plaintext | safe }}" id="content-plaintext" name="content_plaintext" type="hidden">
+                    <input value="{{ note.content | safe }}" id="content" name="content" type="hidden">
+                    <div id="editor-container">{{ note.content | safe }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <div class="message is-warning">
+                    <div class="message-body">
+                        <p>Your note will be stored forever until we receive <a href="mailto:support@znotepad.com">DMCA report</a> to delete about the note.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

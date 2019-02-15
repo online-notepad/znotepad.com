@@ -18,7 +18,7 @@
     {# Facebook #}
     <meta property="fb:app_id" content="756951491343121" />
     <meta property="og:image" content="https://znotepad.com/img/notepad-01.png"/>
-    <meta property="og:url" content="https://znotepad.com/"/>
+    <meta property="og:url" content="{{ url | default('https://znotepad.com/') }}"/>
     <meta property="og:title" content="{{ title | default('Notepad Online - Write notes online') }}"/>
     <meta property="og:description" content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}"/>
 
@@ -27,7 +27,7 @@
     <meta property="twitter:title" content="{{ title | default('Notepad Online - Write notes online') }}"/>
     <meta property="twitter:description" content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}"/>
     <meta property="twitter:image" content="https://znotepad.com/img/notepad-01.png"/>
-    <meta property="twitter:url" content="https://znotepad.com/"/>
+    <meta property="twitter:url" content="{{ url | default('https://znotepad.com/') }}"/>
     <meta name="theme-color" content="#fafafa">
 
     <link rel="manifest" href="/site.webmanifest">

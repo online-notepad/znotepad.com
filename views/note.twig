@@ -1,5 +1,7 @@
 {% extends 'layout.twig' %}
 
+{% set url = "https://znotepad.com/notes/" + note.slug_title %}
+
 {% if note.title %}
     {% set title = note.title | trim | safe + ' - ZNotepad.com' %}
 {% else %}

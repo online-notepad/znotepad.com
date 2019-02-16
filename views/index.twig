@@ -51,3 +51,20 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script>
+        var editor = new Quill('#editor-container', {
+            modules: {toolbar: '#toolbar'},
+            theme: 'snow',
+            placeholder: 'Compose an epic...',
+        });
+
+        editor.on('text-change', function () {
+            document.getElementById('content').value = editor.root.innerHTML;
+            document.getElementById('content-plaintext').value = editor.getText();
+        });
+    </script>
+{% endblock %}

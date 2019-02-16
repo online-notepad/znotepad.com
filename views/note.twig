@@ -17,8 +17,12 @@
 
 {% block styles %}
     <style>
-        .share-url input {
+        input#share-url {
             cursor: copy;
+        }
+
+        .content-wrapper {
+            font-size: 14px;
         }
     </style>
 {% endblock %}
@@ -55,8 +59,8 @@
                     <div class="control is-expanded">
                         <div class="control is-expanded has-icons-left has-icons-right">
 
-                            <label class="share-url">
-                                <input readonly class="input is-link" type="text" value="https://znotepad.com/notes/{{ note.slug_title }}">
+                            <label>
+                                <input id="share-url" readonly class="input is-link" type="text" value="https://znotepad.com/notes/{{ note.slug_title }}">
                             </label>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-link"></i>
@@ -76,8 +80,8 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <label class="label">Content</label>
-                <div class="box">{{ note.content | safe }}</div>
+                <label class="label">Note</label>
+                <div class="box content-wrapper">{{ note.content | safe }}</div>
             </div>
         </div>
         <div class="columns">
@@ -91,4 +95,15 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById("share-url").addEventListener("click", function () {
+            this.select();
+            document.execCommand('copy');
+
+            notie.alert({ type: 'info', text: 'Copied!', position: 'bottom', time: 2 }) // Hides after 2 seconds
+        })
+    </script>
 {% endblock %}

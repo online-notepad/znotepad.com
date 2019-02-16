@@ -39,6 +39,10 @@
             background-color: #fff;
         }
 
+        nav.is-spaced {
+            padding: 0 2rem !important;
+        }
+
         .navbar-brand a {
             font-weight: bold;
             font-size: 24px;
@@ -87,12 +91,21 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
     your browser</a> to improve your experience and security.</p>
 <![endif]-->
-<nav class="navbar has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
+<nav class="navbar is-spaced has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
                 ZNotepad
             </a>
+        </div>
+        <div id="navMenuNavigation" class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item is-hidden-touch is-hidden-desktop-only" href="https://facebook.com/znotepad" target="_blank">
+                    <span class="icon" style="color: #3b579d;">
+                      <i class="fab fa-lg fa-facebook"></i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>

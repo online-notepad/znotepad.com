@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "znotepad.com",
+      "script": "./app.js",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "production",
+        "TZ": "Asia/Ho_Chi_Minh"
+      },
+      "cwd": "/home/mediawant/public_html/znotepad.com/current",
+      "error_file": "./logs/app.err.log",
+      "out_file": "./logs/app.out.log",
+      "instances": "max",
+      "exec_mode": "cluster"
+    }
+  ]
+}

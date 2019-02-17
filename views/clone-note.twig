@@ -118,6 +118,7 @@
 
         editor.on('text-change', function () {
             updateNoteContentToElement();
+            localStorage.setItem('auto_save_note', editor.root.innerHTML);
         });
 
         document.getElementById("share-url").addEventListener("click", function () {

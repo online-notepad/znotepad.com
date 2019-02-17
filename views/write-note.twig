@@ -85,9 +85,12 @@
             placeholder: 'Compose an epic...',
         });
 
+        localStorage.removeItem("auto_save_note");
+
         editor.on('text-change', function () {
             document.getElementById('content').value = editor.root.innerHTML;
             document.getElementById('content-plaintext').value = editor.getText();
+            localStorage.setItem('auto_save_note', editor.root.innerHTML);
         });
     </script>
 {% endblock %}

@@ -4,6 +4,7 @@ const express = require('express');
 const helmet = require('helmet');
 const flash = require('connect-flash');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 const xssFilter = require('x-xss-protection');
 const bodyParser = require('body-parser');
@@ -14,7 +15,8 @@ const moment = require('moment');
 
 const ViewEngine = require('./config/ViewEngine');
 
-require('./config/database');
+const dbInstance = require('./config/database');
+
 const NoteModel = require('./models/notes');
 
 const app = express();
@@ -23,6 +25,7 @@ app.use(express.static("public"));
 app.use(cookieParser('znotepad'));
 app.use(session({
     secret: 'znotepad',
+    store: new MongoStore({mongooseConnection: dbInstance}),
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000 }

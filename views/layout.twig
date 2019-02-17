@@ -127,7 +127,7 @@
     <div class="container">
         <form action="/new-note" method="post">
             <div class="columns">
-
+                <input type="hidden" name="_csrf" value="{{ _csrf }}">
                 {% block editor %} {% endblock %}
 
                 <div class="column is-4">

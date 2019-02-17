@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 const xssFilter = require('x-xss-protection');
 const bodyParser = require('body-parser');
 const slugify = require('slugify');
@@ -20,7 +21,7 @@ const dbInstance = require('./config/database');
 const NoteModel = require('./models/notes');
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static('public', {maxAge: 3600}));
 
 app.use(cookieParser('znotepad'));
 app.use(session({
@@ -43,6 +44,19 @@ app.use(xssFilter({ setOnOldIE: true }));
 
 app.use(bodyParser.json({limit: '10mb', extended: true})); // support json encoded bodies
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })); // support encoded bodies
+
+/**
+ * CSRF Protecttion
+ *
+ * Issue: Need to be after bodyParser
+ * Detail: https://github.com/expressjs/csurf/issues/52
+ *
+ */
+app.use(csrf());
+app.use((req, res, next) => {
+    res.locals._csrf = req.csrfToken();
+    next();
+});
 
 const env = new ViewEngine(app, "views");
 

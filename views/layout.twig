@@ -168,10 +168,12 @@
 <script src="https://unpkg.com/notie"></script>
 <script>
     var flashMessage = document.getElementById("flash-message");
-    var onDeleteFlashMessage = flashMessage.getElementsByClassName("delete")[0];
-    onDeleteFlashMessage.addEventListener("click", function () {
-        flashMessage.classList.add("is-hidden");
-    });
+    if (flashMessage) {
+        var onDeleteFlashMessage = flashMessage.getElementsByClassName("delete")[0];
+        onDeleteFlashMessage.addEventListener("click", function () {
+            flashMessage.classList.add("is-hidden");
+        });
+    }
 </script>
 {% block scripts %} {% endblock %}
 <!-- Global site tag (gtag.js) - Google Analytics -->

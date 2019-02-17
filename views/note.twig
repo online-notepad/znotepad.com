@@ -30,26 +30,7 @@
 {% block editor %}
     <div class="column is-8">
         {% include 'partials/flash-message.twig' %}
-        <div class="columns">
-            <div class="column is-12">
-                <div class="control">
-                    <input readonly disabled maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
-                           class="input is-success" type="text"
-                           placeholder="Note Title">
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column is-12">
 
-                <a href="/new-note?base_note={{ note.slug_title }}" class="button is-info"><i class="fas fa-clone"></i>&nbsp;Clone note</a>
-                <br>
-                <label class="checkbox private-mode">
-                    <input name="is_private" type="checkbox" {% if note.is_private %} checked {% endif %}>
-                    Don't show note public
-                </label>
-            </div>
-        </div>
         <div class="columns has-background-light">
             <div class="column is-12">
                 <label class="label">Share URL</label>
@@ -78,8 +59,15 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <label class="label">Note</label>
-                <div class="box content-wrapper">{{ note.content | safe }}</div>
+                <a href="/new-note?base_note={{ note.slug_title }}" class="button is-info"><i class="fas fa-clone"></i>&nbsp;Clone note</a>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <p class="title is-size-4 is-spaced">{{ note.title }}</p>
+                <div class="box content-wrapper">
+                    <div class="ql-editor">{{ note.content | safe }}</div>
+                </div>
             </div>
         </div>
         <div class="columns">

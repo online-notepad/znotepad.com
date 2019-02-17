@@ -15,6 +15,11 @@
         input#share-url {
             cursor: copy;
         }
+
+        #editor-container iframe {
+            pointer-events: none !important;
+            height: 315px;
+        }
     </style>
 {% endblock %}
 
@@ -92,12 +97,15 @@
 {% endblock %}
 
 {% block scripts %}
-    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="/js/video-resize.min.js"></script>
     <script>
         var editor = new Quill('#editor-container', {
-            modules: {toolbar: '#toolbar'},
             theme: 'snow',
+            modules: {
+                toolbar: '#toolbar',
+                videoResize: {}
+            },
             placeholder: 'Compose an epic...',
         });
 

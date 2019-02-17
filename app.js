@@ -30,7 +30,7 @@ app.use(session({
     store: new MongoStore({mongooseConnection: dbInstance}),
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }
+    cookie: { expires: new Date(Date.now() + 3600000*24*15), maxAge: 3600000*24*15 }
 }));
 app.use(flash());
 app.use(function (req, res, next) {

@@ -14,6 +14,7 @@ const shortid = require('shortid-36');
 const Promise = require('bluebird');
 const moment = require('moment');
 
+const ExceptionHandlers = require('./config/throwError');
 const ViewEngine = require('./config/ViewEngine');
 
 const dbInstance = require('./config/database');
@@ -200,5 +201,10 @@ app.get('/notes/:slug_title', (req, res) => {
         return res.render('error.twig');
     });
 });
+
+/**
+ * Logging exception error any status
+ */
+ExceptionHandlers.configure(app);
 
 app.listen(3002, () => console.log("Application listen on port: 3002"));

@@ -72,6 +72,7 @@ app.route('/new-note')
     .get((req, res) => {
 
         const baseNote = req.query.base_note;
+        const title = req.query.title; // title param from opensearch.xml
 
         if (baseNote) {
             Promise.all([
@@ -101,6 +102,9 @@ app.route('/new-note')
                 .select('title slug_title created_at visitor_count')
                 .exec((err, newestNotes) => {
                     res.render('write-note.twig', {
+                        note: {
+                            title: title
+                        },
                         newestNotes: newestNotes || []
                     });
                 })

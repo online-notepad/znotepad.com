@@ -101,9 +101,15 @@
             placeholder: 'Compose an epic...',
         });
 
-        editor.on('text-change', function () {
+        function updateNoteContentToElement() {
             document.getElementById('content').value = editor.root.innerHTML;
             document.getElementById('content-plaintext').value = editor.getText();
+        }
+
+        updateNoteContentToElement(); // Run it for the first time when visiting "clone-note" page
+
+        editor.on('text-change', function () {
+            updateNoteContentToElement();
         });
 
         document.getElementById("share-url").addEventListener("click", function () {

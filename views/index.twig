@@ -9,9 +9,6 @@
 {% block editor %}
     <div class="column is-8">
         <div class="columns">
-            {% include 'partials/what-is-notepad.twig' %}
-        </div>
-        <div class="columns">
             <div class="column is-12">
                 <div class="control">
                     <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
@@ -48,6 +45,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="columns">
+            {% include 'partials/what-is-notepad.twig' %}
         </div>
     </div>
 {% endblock %}

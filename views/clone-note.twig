@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% set title = (note.title | trim | default('untitled', true)) + ' - ZNotepad.com' | safe %}
+{% set title = (note.title | trim | default('Untitled', true)) + ' - ZNotepad.com' | safe %}
 {% set description = note.content_plaintext | truncate(150) | safe | striptags %}
 
 {% set url = "https://znotepad.com/notes/" + note.slug_title %}
@@ -20,9 +20,6 @@
 
 {% block editor %}
     <div class="column is-8">
-        <div class="columns">
-            {% include 'partials/what-is-notepad.twig' %}
-        </div>
         <div class="columns">
             <div class="column is-12">
                 <div class="control">
@@ -88,7 +85,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="columns">
+            {% include 'partials/what-is-notepad.twig' %}
+        </div>
     </div>
 {% endblock %}
 

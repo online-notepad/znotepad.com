@@ -113,7 +113,7 @@
     </div>
 </nav>
 
-<section class="hero is-primary">
+<section class="hero is-primary is-hidden-mobile">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">Notepad Online</h1>
@@ -139,7 +139,7 @@
                         {% for note in newestNotes %}
                             <article class="post">
                                 <a href="/notes/{{ note.slug_title }}"
-                                   class="is-size-6 has-text-grey-dark" {% if not note.title | length  %} style="color: #9E9E9E !important;" {% endif %}>{{ note.title | truncate(70) | default('untitled', true) }}</a>
+                                   class="is-size-6 has-text-grey-dark" {% if not note.title | length  %} style="color: #9E9E9E !important;" {% endif %}>{{ note.title | truncate(70) | default('Untitled', true) }}</a>
                                 <p class="has-text-right">
                                     <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
                                 </p>
@@ -166,6 +166,13 @@
 
 <link href="https://unpkg.com/notie/dist/notie.min.css" type="text/css" rel="stylesheet">
 <script src="https://unpkg.com/notie"></script>
+<script>
+    var flashMessage = document.getElementById("flash-message");
+    var onDeleteFlashMessage = flashMessage.getElementsByClassName("delete")[0];
+    onDeleteFlashMessage.addEventListener("click", function () {
+        flashMessage.classList.add("is-hidden");
+    });
+</script>
 {% block scripts %} {% endblock %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134464780-1"></script>

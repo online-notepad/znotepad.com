@@ -2,7 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const helmet = require('helmet');
-const xssFilter = require('x-xss-protection')
+const flash = require('connect-flash');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const xssFilter = require('x-xss-protection');
 const bodyParser = require('body-parser');
 const slugify = require('slugify');
 const shortid = require('shortid-36');
@@ -16,6 +19,20 @@ const NoteModel = require('./models/notes');
 
 const app = express();
 app.use(express.static("public"));
+
+app.use(cookieParser('znotepad'));
+app.use(session({
+    secret: 'znotepad',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+}));
+app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.messages = req.session.flash;
+    delete req.session.flash;
+    next();
+});
 
 app.use(helmet());
 app.disable('x-powered-by');
@@ -92,6 +109,11 @@ app.route('/new-note')
         const contentPlaintext = req.body.content_plaintext;
         const baseNote = req.body.base_note;
 
+        if (!content) {
+            req.flash('warning', 'Please enter your note content you want to save. Just do it as well.');
+            return res.redirect(302, '/new-note')
+        }
+
         let isPrivate = req.body.is_private;
         if (isPrivate) {
             isPrivate = true;
@@ -124,6 +146,8 @@ app.route('/new-note')
                 console.log(err);
                 return res.render('error.twig');
             }
+
+            req.flash('success', 'You have saved your note successful. You can see <strong>Share URL</strong> below. Just copy it and share your note to everyone right now.');
             return res.redirect(302, `/notes/${note.slug_title}`);
         });
     });

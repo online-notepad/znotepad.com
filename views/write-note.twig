@@ -15,9 +15,7 @@
     <div class="column is-8">
         <div class="columns">
             <div class="column is-12">
-                <h2 class="title is-size-4 is-spaced">Write a new note</h2>
-                <p class="is-size-6">You can write notes and change the formatting in a note—for example, change the font size or alignment, or make text <span class="has-text-weight-bold">bold</span>.
-                    You can also apply paragraph styles, add checklists, and specify the paragraph style that’s used when you start typing a new note.</p>
+                {% include 'partials/flash-message.twig' %}
             </div>
         </div>
         <div class="columns">
@@ -56,6 +54,13 @@
                         <p>Your note will be stored forever until we receive <a href="mailto:support@znotepad.com">DMCA report</a> to delete about the note.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <h2 class="title is-size-4 is-spaced">Write a new note</h2>
+                <p class="is-size-6">You can write notes and change the formatting in a note—for example, change the font size or alignment, or make text <span class="has-text-weight-bold">bold</span>.
+                    You can also apply paragraph styles, add checklists, and specify the paragraph style that’s used when you start typing a new note.</p>
             </div>
         </div>
     </div>

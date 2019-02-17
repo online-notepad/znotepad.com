@@ -5,7 +5,7 @@
 {% if note.title %}
     {% set title = note.title | trim | safe + ' - ZNotepad.com' %}
 {% else %}
-    {% set title = 'untitled - ZNotepad.com' %}
+    {% set title = 'Untitled - ZNotepad.com' %}
 {% endif %}
 
 {% set description = note.content_plaintext | truncate(150) | safe | striptags %}
@@ -30,7 +30,9 @@
 {% block editor %}
     <div class="column is-8">
         <div class="columns">
-            {% include 'partials/what-is-notepad.twig' %}
+            <div class="column is-12">
+                {% include 'partials/flash-message.twig' %}
+            </div>
         </div>
         <div class="columns">
             <div class="column is-12">
@@ -93,7 +95,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="columns">
+            {% include 'partials/what-is-notepad.twig' %}
+        </div>
     </div>
 {% endblock %}
 

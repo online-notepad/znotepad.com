@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ title | default('Notepad Online - Write notes online') }}</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="New note on ZNotepad">
+
+    <meta itemprop="name" content="ZNotepad"/>
+    <meta name="description"
+          content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords"
+          content="online notepad, online note app, online notebook, online bookmark, online private note, private text message, message online, online inbox message"/>
+    <meta name="referrer" content="never">
+    <meta name="referrer" content="no-referrer">
+    {% block SEO %} {% endblock %}
+
+    {# Facebook #}
+    <meta property="fb:app_id" content="756951491343121"/>
+    <meta property="og:image" content="https://znotepad.com/img/notepad-01.png"/>
+    <meta property="og:url" content="{{ url | default('https://znotepad.com/') }}"/>
+    <meta property="og:title" content="{{ title | default('Notepad Online - Write notes online') }}"/>
+    <meta property="og:description"
+          content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}"/>
+
+    {# Twitter #}
+    <meta property="twitter:card" content="summary"/>
+    <meta property="twitter:title" content="{{ title | default('Notepad Online - Write notes online') }}"/>
+    <meta property="twitter:description"
+          content="{{ description | default('Fast, clean, simple to use and FREE online web notepad. Powerful to share with everyone about your note.') }}"/>
+    <meta property="twitter:image" content="https://znotepad.com/img/notepad-01.png"/>
+    <meta property="twitter:url" content="{{ url | default('https://znotepad.com/') }}"/>
+    <meta name="theme-color" content="#fafafa">
+
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/bulma-features.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            background-color: #fff;
+        }
+
+        nav.is-spaced {
+            padding: 0 2rem !important;
+        }
+
+        .navbar-brand a {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .navbar-brand a:hover {
+            color: #4a4a4a;
+        }
+
+        .is-size-8 {
+            font-size: 15px;
+        }
+
+    </style>
+    {% block styles %} {% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+</head>
+
+<body class="has-navbar-fixed-top">
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience and security.</p>
+<![endif]-->
+<nav class="navbar is-spaced has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                ZNotepad
+            </a>
+            <a class="navbar-item is-hidden-desktop" href="https://github.com/online-notepad" target="_blank">
+                    <span class="icon" style="color: #333;">
+                      <i class="fab fa-github"></i>
+                    </span>
+            </a>
+            <a class="navbar-item is-hidden-desktop" href="https://facebook.com/znotepad" target="_blank">
+                    <span class="icon" style="color: #3b579d;">
+                      <i class="fab fa-facebook"></i>
+                    </span>
+            </a>
+        </div>
+        <div id="navMenuNavigation" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/features">
+                    <span class="icon has-text-primary">
+                      <i class="has-text-danger fas fa-book fa-lg"></i>
+                    </span>
+                    <strong class="is-size-8">Features</strong>
+                </a>
+                {#<a class="navbar-item" href="/video">#}
+                    {#<span class="icon has-text-primary">#}
+                      {#<i class="has-text-success fas fa-play-circle fa-lg"></i>#}
+                    {#</span>#}
+                    {#<strong class="is-size-8">Video</strong>#}
+                {#</a>#}
+                {#<a class="navbar-item" href="/about">#}
+                    {#<span class="icon has-text-primary">#}
+                      {#<i class="has-text-info fas fa-info fa-lg"></i>#}
+                    {#</span>#}
+                    {#<strong class="is-size-8">About</strong>#}
+                {#</a>#}
+                {#<a class="navbar-item" href="/feedback">#}
+                    {#<span class="icon has-text-primary">#}
+                      {#<i style="color: #f26522" class="fas fa-comments fa-lg"></i>#}
+                    {#</span>#}
+                    {#<strong class="is-size-8">Feedback</strong>#}
+                {#</a>#}
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/online-notepad" target="_blank">
+                    <span class="icon" style="color: #333;">
+                      <i class="fab fa-lg fa-2x fa-github"></i>
+                    </span>
+                </a>
+                <a class="navbar-item" href="https://facebook.com/znotepad" target="_blank">
+                    <span class="icon" style="color: #3b579d;">
+                      <i class="fab fa-lg fa-2x fa-facebook"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-primary is-hidden-mobile">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Notepad Online</h1>
+            <h2 class="subtitle">Free online note trusted by millions</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="bd-lead" style="padding-top: 0; padding-bottom: 0">
+            <nav class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="is-active">
+                        <a href="#">Features</a>
+                    </li>
+                </ul>
+            </nav>
+            <header style="margin-bottom: 3rem">
+                <h1 class="title">Features</h1>
+                <p class="subtitle is-4">Stay updated about new features, bug fixes, and releases</p>
+                <a target="_blank" href="https://github.com/online-notepad/znotepad.com" class="button">
+                    <i class="fab fa-github fa-lg"></i>&nbsp;
+                    <span>Follow on GitHub</span>
+                </a>
+            </header>
+            <div class="bd-content">
+                <div class="bd-links">
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle">14 Feb 2019</p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-map-pin"></i>
+                                </span>
+                            </figure>
+                            Simple and clear user interface
+                        </h2>
+                        <p class="bd-link-subtitle">Easy to use</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle"><span class="tag is-info">WIP</span></p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-file-export"></i>
+                                </span>
+                            </figure>
+                            Export with many formats
+                        </h2>
+                        <p class="bd-link-subtitle">Keeping the docs in sync & backup</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle">15 Feb 2019</p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-marker"></i>
+                                </span>
+                            </figure>
+                            Powerful editor with Quill
+                        </h2>
+                        <p class="bd-link-subtitle">Keeping the docs in sync</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle">14 Feb 2019</p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-share"></i>
+                                </span>
+                            </figure>
+                            Sharing your note quickly
+                        </h2>
+                        <p class="bd-link-subtitle">Keeping Unique note URL</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle"><span class="tag is-info">WIP</span></p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </figure>
+                            Password protection
+                        </h2>
+                        <p class="bd-link-subtitle">Set password on your note</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle"><span class="tag is-info">WIP</span></p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </span>
+                            </figure>
+                            Customize note URL
+                        </h2>
+                        <p class="bd-link-subtitle">Keeping to friendly and meaning</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle">14 Feb 2019</p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </span>
+                            </figure>
+                            Ready responsive layout
+                        </h2>
+                        <p class="bd-link-subtitle">on the mobile, tablet, desktop and many different resolutions</p>
+                    </a>
+                    <a class="bd-link" href="#">
+                        <p class="bd-link-surtitle"><span class="tag is-info">WIP</span></p>
+                        <h2 class="bd-link-name">
+                            <figure class="bd-link-figure">
+                                <span class="bd-link-icon has-text-link">
+                                    <i class="fas fa-globe-americas"></i>
+                                </span>
+                            </figure>
+                            Multiples language
+                        </h2>
+                        <p class="bd-link-subtitle">I18n</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="bd-footer-support">
+    <h4 class="bd-footer-title">
+        <strong>Issue report</strong> ZNotepad
+    </h4>
+    <div class="columns">
+        <div class="column is-12">
+            <p class="bd-footer-donation-title">
+                <strong>GitHub</strong> issue
+            </p>
+            <a target="_blank" class="button is-link" href="https://github.com/online-notepad/znotepad.com/issues/new">
+                <i style="color: #333" class="fab fa-github fa-lg"></i>&nbsp; <strong>ZNotepad</strong></a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <span class="is-size-6">Powerful sharing tool © 2019 ZNotepad.com</span>
+        </p>
+    </div>
+</footer>
+{% block scripts %} {% endblock %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134464780-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-134464780-1');
+</script>
+
+</body>
+
+</html>

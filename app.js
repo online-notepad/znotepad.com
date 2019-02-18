@@ -83,6 +83,22 @@ app.get('/', (req, res) => {
         })
 });
 
+app.get('/features', (req, res) => {
+    res.render('pages/features.twig')
+});
+
+// app.get('/video', (req, res) => {
+//     res.render('pages/video.twig')
+// });
+//
+// app.get('/about', (req, res) => {
+//     res.render('pages/about.twig')
+// });
+//
+// app.get('/feedback', (req, res) => {
+//     res.render('pages/feedback.twig')
+// });
+
 app.route('/new-note')
     .get((req, res) => {
 

@@ -88,6 +88,22 @@
             height: 315px;
         }
 
+        .sticky-sidebar {
+            min-height: 100%;
+            position: relative;
+        }
+
+        .sticky-sidebar__inner {
+            /*position: fixed;*/
+            position: relative;
+            transition: width .45s cubic-bezier(.23,1,.32,1) 0ms;
+            padding-bottom: 30px;
+        }
+
+        .is-size-8 {
+            font-size: 15px;
+        }
+
     </style>
     {% block styles %} {% endblock %}
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
@@ -105,14 +121,63 @@
             <a class="navbar-item" href="/">
                 ZNotepad
             </a>
+            <a class="navbar-item is-hidden-desktop" href="https://github.com/online-notepad" target="_blank">
+                    <span class="icon" style="color: #333;">
+                      <i class="fab fa-github"></i>
+                    </span>
+            </a>
+            <a class="navbar-item is-hidden-desktop" href="https://facebook.com/znotepad" target="_blank">
+                    <span class="icon" style="color: #3b579d;">
+                      <i class="fab fa-facebook"></i>
+                    </span>
+            </a>
         </div>
         <div id="navMenuNavigation" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/features">
+                    <span class="icon has-text-primary">
+                      <i class="has-text-danger fas fa-book fa-lg"></i>
+                    </span>
+                    <strong class="is-size-8">Features</strong>
+                </a>
+                <a class="navbar-item" href="/video">
+                    <span class="icon has-text-primary">
+                      <i class="has-text-success fas fa-play-circle fa-lg"></i>
+                    </span>
+                    <strong class="is-size-8">Video</strong>
+                </a>
+                <a class="navbar-item" href="/about">
+                    <span class="icon has-text-primary">
+                      <i class="has-text-info fas fa-info fa-lg"></i>
+                    </span>
+                    <strong class="is-size-8">About</strong>
+                </a>
+                <a class="navbar-item" href="/feedback">
+                    <span class="icon has-text-primary">
+                      <i style="color: #f26522" class="fas fa-comments fa-lg"></i>
+                    </span>
+                    <strong class="is-size-8">Feedback</strong>
+                </a>
+            </div>
             <div class="navbar-end">
-                <a class="navbar-item is-hidden-touch is-hidden-desktop-only" href="https://facebook.com/znotepad" target="_blank">
+                <a class="navbar-item" href="https://github.com/online-notepad" target="_blank">
+                    <span class="icon" style="color: #333;">
+                      <i class="fab fa-lg fa-2x fa-github"></i>
+                    </span>
+                </a>
+                <a class="navbar-item" href="https://facebook.com/znotepad" target="_blank">
                     <span class="icon" style="color: #3b579d;">
                       <i class="fab fa-lg fa-2x fa-facebook"></i>
                     </span>
                 </a>
+                <div class="navbar-item">
+                        <p class="control">
+                            <a class="button is-primary" href="#">
+                                <strong>Download</strong>
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -135,21 +200,25 @@
                 {% block editor %} {% endblock %}
 
                 <div class="column is-4">
-                    <div class="field">
-                        <a href="/new-note" class="button is-link"><i class="fas fa-edit"></i> &nbsp; New note</a>
-                    </div>
-                    <div class="box content">
-                        <p class="is-size-6 has-text-weight-bold menu-label"><i class="far fa-sticky-note"></i> Newest
-                            notes</p>
-                        {% for note in newestNotes %}
-                            <article class="post">
-                                <a href="/notes/{{ note.slug_title }}"
-                                   class="is-size-6 has-text-grey-dark" {% if not note.title | length  %} style="color: #9E9E9E !important;" {% endif %}>{{ note.title | truncate(70) | default('Untitled', true) }}</a>
-                                <p class="has-text-right">
-                                    <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
-                                </p>
-                            </article>
-                        {% endfor %}
+                    <div class="sticky-sidebar">
+                        <div class="sticky-sidebar__inner">
+                            <div class="field">
+                                <a href="/new-note" class="button is-link"><i class="fas fa-edit"></i> &nbsp; New note</a>
+                            </div>
+                            <div class="box content">
+                                <p class="is-size-6 has-text-weight-bold menu-label"><i class="far fa-sticky-note"></i> Newest
+                                    notes</p>
+                                {% for note in newestNotes %}
+                                    <article class="post">
+                                        <a href="/notes/{{ note.slug_title }}"
+                                           class="is-size-6 has-text-grey-dark" {% if not note.title | length  %} style="color: #9E9E9E !important;" {% endif %}>{{ note.title | truncate(70) | default('Untitled', true) }}</a>
+                                        <p class="has-text-right">
+                                            <small class="has-text-grey-light">{{ note.created_at | moment }}</small>
+                                        </p>
+                                    </article>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,9 +228,6 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <a href="https://bulma.io" target="_blank" rel="nofollow">
-            <img src="/img/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
-        </a>
         <p>
             <span class="is-size-6">Powerful sharing tool © 2019 ZNotepad.com</span>
         </p>

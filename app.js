@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const fs = require('fs');
 const express = require('express');
 const helmet = require('helmet');
 const flash = require('connect-flash');
@@ -13,6 +14,7 @@ const slugify = require('slugify');
 const shortid = require('shortid-36');
 const Promise = require('bluebird');
 const moment = require('moment');
+const pdf = require('html-pdf');
 
 const ExceptionHandlers = require('./config/throwError');
 const ViewEngine = require('./config/ViewEngine');
@@ -98,6 +100,47 @@ app.get('/features', (req, res) => {
 // app.get('/feedback', (req, res) => {
 //     res.render('pages/feedback.twig')
 // });
+
+app.get('/download/notes/:slug_title', (req, res) => {
+    const format = req.query.format;
+    NoteModel.findOneAndUpdate({slug_title: req.params.slug_title}, {
+        $inc: {
+            download_count: 1
+        }
+    }).then(note => {
+        if (format === 'pdf') {
+            pdf.create(note.content, {
+                directory: "/tmp",
+                format: 'Tabloid',
+                border: {
+                    top: "0.5in",
+                    bottom: "0.5in",
+                    right: "0.5in",
+                    left: "0.5in"
+                },
+                header: {
+                    height: "45mm",
+                    contents: `<div style="text-align: right;">Creator: ZNotepad.com</div><br>
+                                <p style="text-align: center;">${note.title}</p>`
+                },
+                footer: {
+                    height: "28mm",
+                    contents: {
+                        first: `<small style="color: #424242; border-left: 2px solid #b11f24; padding-left: 5px;">Note URL: <span style="color: #82B1FF">https://znotepad.com/notes/${note.slug_title}</span></small>`
+                    }
+                }
+            }).toStream((err, stream) => {
+                if (err) return res.end(err.message);
+
+                res.setHeader('Content-disposition', 'attachment; filename=' + note.slug_title + ".pdf");
+                res.setHeader('Content-type', 'application/pdf');
+                stream.pipe(res);
+            })
+        }
+    }).catch(error => {
+        console.log("Error:", error);
+    })
+});
 
 app.route('/new-note')
     .get((req, res) => {

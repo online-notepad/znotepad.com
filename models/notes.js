@@ -8,6 +8,7 @@ const Note = new Schema({
     content_plaintext: String,
 
     visitor_count: Number,
+    download_count: Number,
 
     is_private: Boolean,
     base_note: String,

@@ -1,5 +1,5 @@
-require('dotenv').config()
-const createDeployTasks = require('shipit-deploy')
+require('dotenv').config();
+const createDeployTasks = require('shipit-deploy');
 
 const PM2_APP_NAME = 'ZNotepad'
 
@@ -32,5 +32,18 @@ module.exports = shipit => {
         );
 
         require('dotenv').config();
+    });
+
+    shipit.blTask('startApp', async () => {
+        await shipit.remote(
+            ` pm2 startOrRestart /home/mediawant/public_html/znotepad.com/current/pm2-daemon.json`
+        );
+
+        shipit.log('Started ap process')
+    });
+
+    // When symlink changes, restart the app
+    shipit.on('published', () => {
+        shipit.start('startApp');
     });
 };

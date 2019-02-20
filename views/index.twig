@@ -28,7 +28,7 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                <button id="saveNote" type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
                 <br>
                 <label class="checkbox private-mode">
                     <input name="is_private" type="checkbox">
@@ -80,6 +80,11 @@
             document.getElementById('content').value = editor.root.innerHTML;
             document.getElementById('content-plaintext').value = editor.getText();
             localStorage.setItem('auto_save_note', editor.root.innerHTML);
+        });
+
+        document.getElementById("saveNote").addEventListener("click", function () {
+            this.classList.add("is-loading");
+            localStorage.removeItem("auto_save_note"); // TODO: Check condition execute it when save is successfully!
         });
     </script>
 {% endblock %}

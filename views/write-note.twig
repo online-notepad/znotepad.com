@@ -17,6 +17,15 @@
             pointer-events: none !important;
             height: 315px;
         }
+
+        .showHidePassword {
+            cursor: pointer;
+        }
+
+        .url-suggestion {
+            color: #34631a;
+            cursor: pointer;
+        }
     </style>
 {% endblock %}
 
@@ -34,13 +43,63 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
-                <br>
+                <nav class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <p class="level-item">
+                            <a data-target="#options" class="button collapse">Options &nbsp; <i class="fas fa-chevron-down"></i></a>
+                        </p>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
                 <label class="checkbox private-mode">
                     <input name="is_private" type="checkbox">
                     Don't show note public
                 </label>
             </div>
+        </div>
+        <div class="columns" id="options" style="display: none;">
+            <div class="column is-12">
+                <label class="is-size-6">Optional Note Settings</label>
+                <hr style="margin-bottom: 12px; margin-top: 6px">
+                <label class="label">Password</label>
+                <div class="field has-addons">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="password" name="password" autocomplete="current-password" class="input is-shadowless" type="password" placeholder="Enter password protection">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="control noselect showHidePassword">
+                        <a class="button is-static">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </p>
+                </div>
+                <p class="help">Anyone who wants to access must enter a password.</p>
+                <br>
+                <label class="label">URL</label>
+                <div class="field has-addons">
+                    <p class="control">
+                        <a class="button is-static"><i class="fab fa-internet-explorer"></i> &nbsp; znotepad.com/notes/</a>
+                    </p>
+                    <p class="control has-icons-right is-expanded is-loading">
+                        <input class="input is-shadowless" type="text" placeholder="customize" name="url">
+                        <span class="icon is-small is-right is-hidden">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <p class="help">Great note URL path is short and memorable. Need inspiration? How about <strong class="url-suggestion">fuzzy-succotash</strong>?</p>
+            </div>
+
         </div>
         <div class="columns">
             <div class="column is-12">
@@ -91,6 +150,25 @@
             document.getElementById('content').value = editor.root.innerHTML;
             document.getElementById('content-plaintext').value = editor.getText();
             localStorage.setItem('auto_save_note', editor.root.innerHTML);
+        });
+
+        $(".collapse").on('click', function (e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            $(target).slideToggle({duration: 200});
+        });
+
+        $('.showHidePassword').click(function () {
+            var $icon = $(this).find('svg');
+            var $passwordInput = $("#password");
+            var type = $passwordInput.attr('type');
+            if (type === 'password') {
+                $passwordInput.attr('type', 'text');
+                $icon.attr('data-icon', 'eye-slash');
+                return;
+            }
+            $passwordInput.attr('type', 'password');
+            $icon.attr('data-icon', 'eye');
         });
     </script>
 {% endblock %}

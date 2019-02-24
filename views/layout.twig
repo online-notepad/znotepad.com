@@ -43,6 +43,16 @@
             background-color: #fff;
         }
 
+        .noselect {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+        }
+
         nav.is-spaced {
             padding: 0 2rem !important;
         }
@@ -80,7 +90,6 @@
         }
 
         .checkbox.private-mode {
-            margin-top: 12px;
             font-size: 0.9rem;
         }
 
@@ -228,6 +237,7 @@
 <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 <link href="https://unpkg.com/notie/dist/notie.min.css" type="text/css" rel="stylesheet">
 <script src="https://unpkg.com/notie"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var flashMessage = document.getElementById("flash-message");
     if (flashMessage) {

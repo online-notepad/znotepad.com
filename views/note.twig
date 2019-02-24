@@ -68,6 +68,13 @@
                 <p class="title is-size-4 is-spaced">{{ note.title }}</p>
                 <div class="ql-snow box content-wrapper">
                     <div class="ql-editor">{{ note.content | safe }}</div>
+                    <hr>
+                    <nav class="level">
+                        <div class="level-left"></div>
+                        <div class="level-right">
+                            <span class="has-text-weight-bold is-size-6">{{ note.visitor_count }} views</span>
+                        </div>
+                    </nav>
                 </div>
                 <div class="addthis_inline_share_toolbox"></div>
             </div>

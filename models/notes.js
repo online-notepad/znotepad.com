@@ -12,6 +12,7 @@ const Note = new Schema({
 
     is_private: Boolean,
     base_note: String,
+    password: String,
 
     day: Number,
     month: Number,

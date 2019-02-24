@@ -15,6 +15,9 @@ const shortid = require('shortid-36');
 const Promise = require('bluebird');
 const moment = require('moment');
 const pdf = require('html-pdf');
+const md5 = require('md5');
+
+const PREFIX_NOTE_PASSWORD = "ng4WGrowth.ZNotepad.com";
 
 const ExceptionHandlers = require('./config/throwError');
 const ViewEngine = require('./config/ViewEngine');
@@ -189,6 +192,7 @@ app.route('/new-note')
         const content = req.body.content;
         const contentPlaintext = req.body.content_plaintext;
         const baseNote = req.body.base_note;
+        let password = req.body.password;
 
         if (!content) {
             req.flash('warning', 'Please enter your note content you want to save. Just do it as well.');
@@ -206,6 +210,9 @@ app.route('/new-note')
             slugTitle = slugify(title, {lower: true});
             slugTitle = slugTitle.substring(0, 70) + '-' + uuid;
         }
+        if (password) {
+            password = md5(password + "." + PREFIX_NOTE_PASSWORD);
+        }
 
         const date = new Date();
 
@@ -216,6 +223,7 @@ app.route('/new-note')
             content_plaintext: contentPlaintext,
             visitor_count: 0,
             is_private: isPrivate,
+            password: password,
             base_note: baseNote,
             day: date.getDate(),
             month: date.getMonth() + 1,
@@ -227,11 +235,54 @@ app.route('/new-note')
                 console.log(err);
                 return res.render('error.twig');
             }
+            if (note.password) {
+                const lifetime = 2 * 24 * 60 * 60 * 1000; // 2 days;
+                res.cookie(note.slug_title, note.password, {
+                    // domain: '.znotepad.com',
+                    expires: new Date(Date.now() + lifetime),
+                    httpOnly: true
+                });
+            }
 
             req.flash('success', 'You have saved your note successful. You can see <strong>Share URL</strong> below. Just copy it and share your note to everyone right now.');
             return res.redirect(302, `/notes/${note.slug_title}`);
         });
     });
+
+app.get('/password/notes', (req, res) => {
+    return res.render('enter-password.twig');
+});
+
+app.post('/password/notes', (req, res) => {
+    const password = req.body.password;
+
+    const passwordEncrypted = md5(password + "." + PREFIX_NOTE_PASSWORD);
+
+    NoteModel.findOne({ slug_title: req.query.id }).then(note => {
+        if (note) {
+            if (note.password === passwordEncrypted) {
+
+                NoteModel.find({ is_private: { $ne: true } })
+                    .sort({created_at: -1})
+                    .limit(8)
+                    .select('title slug_title created_at visitor_count').then(newestNotes => {
+                        return res.render('note.twig', {
+                            note: note,
+                            newestNotes: newestNotes
+                        });
+                });
+            }
+
+            req.flash('danger', 'Wrong password!');
+            return res.redirect('back');
+        }
+
+        return res.render('404.twig');
+
+    }).catch(error => {
+        return res.render('error.twig');
+    });
+});
 
 app.get('/notes/:slug_title', (req, res) => {
     Promise.all([
@@ -249,6 +300,11 @@ app.get('/notes/:slug_title', (req, res) => {
         const newestNotes = response[1];
 
         if (note) {
+            if (note.password) {
+                if (req.cookies[note.slug_title] !== note.password) {
+                    return res.redirect(`/password/notes?id=${note.slug_title}`);
+                }
+            }
             return res.render('note.twig', {
                 note: note,
                 newestNotes: newestNotes

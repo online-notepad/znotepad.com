@@ -16,6 +16,7 @@ const Promise = require('bluebird');
 const moment = require('moment');
 const pdf = require('html-pdf');
 const md5 = require('md5');
+const cheerio = require('cheerio');
 
 const PREFIX_NOTE_PASSWORD = "ng4WGrowth.ZNotepad.com";
 
@@ -103,6 +104,35 @@ app.get('/features', (req, res) => {
 // app.get('/feedback', (req, res) => {
 //     res.render('pages/feedback.twig')
 // });
+
+app.get('/check/url-available', (req, res) => {
+
+    const slugTitle = slugify(req.query.id, {lower: true});
+
+    NoteModel.findOne({ slug_title: slugTitle }).then(response => {
+        if (response) {
+            return res.json({
+                error: false,
+                exits: true,
+                message: `The note URL <strong>${response.slug_title}</strong> already exists on ZNotepad`,
+                id: response.slug_title
+            })
+        }
+
+        return res.json({
+            error: false,
+            exits: false,
+            message: `The note URL <strong style="color: #5ab034;">${slugTitle}</strong> is available.`,
+            id: slugTitle
+        })
+    }).catch(error => {
+        return res.json({
+            error: true,
+            message: error.message,
+            id: slugTitle
+        })
+    })
+});
 
 app.get('/download/notes/:slug_title', (req, res) => {
     const format = req.query.format;
@@ -193,23 +223,34 @@ app.route('/new-note')
         const contentPlaintext = req.body.content_plaintext;
         const baseNote = req.body.base_note;
         let password = req.body.password;
+        let url = slugify(req.body.url, {lower: true});
 
         if (!content) {
             req.flash('warning', 'Please enter your note content you want to save. Just do it as well.');
             return res.redirect(302, '/new-note')
         }
 
+        const $content = cheerio.load(content, {
+            xmlMode: true
+        });
+        $content('a').attr('rel', 'nofollow');
+
         let isPrivate = req.body.is_private;
         if (isPrivate) {
             isPrivate = true;
         }
-        let slugTitle = shortid.generate().toString().toLowerCase();
-        if (title) {
-            title = title.substring(0, 70);
-            const uuid = slugTitle;
-            slugTitle = slugify(title, {lower: true});
-            slugTitle = slugTitle.substring(0, 70) + '-' + uuid;
+
+        if (!url) {
+            let slugTitle = shortid.generate().toString().toLowerCase();
+            if (title) {
+                title = title.substring(0, 70);
+                const uuid = slugTitle;
+                slugTitle = slugify(title, {lower: true});
+                slugTitle = slugTitle.substring(0, 70) + '-' + uuid;
+            }
+            url = slugTitle
         }
+
         if (password) {
             password = md5(password + "." + PREFIX_NOTE_PASSWORD);
         }
@@ -218,8 +259,8 @@ app.route('/new-note')
 
         const newNote = new NoteModel({
             title: title,
-            slug_title: slugTitle,
-            content: content,
+            slug_title: url,
+            content: $content.html(),
             content_plaintext: contentPlaintext,
             visitor_count: 0,
             is_private: isPrivate,

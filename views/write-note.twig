@@ -26,6 +26,58 @@
             color: #34631a;
             cursor: pointer;
         }
+
+        .warning-suggestion {
+            background-color: #fffbdd;
+            border-color: #d9d0a5;
+            color: #735c0f;
+            border-radius: 3px;
+            border-style: solid;
+            border-width: 1px;
+            display: block;
+            font-size: 13px;
+            font-weight: 400;
+            margin: 4px 0 0;
+            max-width: 450px;
+            padding: 5px 8px;
+            position: absolute;
+            top: -43px;
+            z-index: 10;
+        }
+
+        .warning-suggestion:before {
+            border: solid transparent;
+            border-bottom-color: #d9d0a5;
+            border-width: 6px;
+            margin-left: 10px;
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            bottom: -40%;
+            content: " ";
+            height: 0;
+            left: 10px;
+            pointer-events: none;
+            position: absolute;
+            width: 0;
+            z-index: 15;
+        }
+
+        .warning-suggestion:after {
+            border: solid #5f0d0d00;
+            bottom: -37%;
+            content: " ";
+            height: 0;
+            border-width: 6px;
+            left: 20px;
+             -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+            border-bottom-color: #fffbdd;
+            pointer-events: none;
+            position: absolute;
+            width: 0;
+            z-index: 999;
+        }
+
     </style>
 {% endblock %}
 
@@ -43,7 +95,7 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <nav class="level">
+                <nav class="level is-mobile">
                     <div class="level-left">
                         <div class="level-item">
                             <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
@@ -90,14 +142,18 @@
                     <p class="control">
                         <a class="button is-static"><i class="fab fa-internet-explorer"></i> &nbsp; znotepad.com/notes/</a>
                     </p>
-                    <p class="control has-icons-right is-expanded is-loading">
+                    <p class="control has-icons-right is-expanded control-url-customize">
                         <input class="input is-shadowless" type="text" placeholder="customize" name="url">
                         <span class="icon is-small is-right is-hidden">
-                            <i class="fas fa-check"></i>
+                            <i style="color: #5ab034" class="fas fa-check"></i>
+                        </span>
+
+                        <span class="warning-suggestion is-hidden-mobile" style="display: none">
+                            Your new note will be created as <strong></strong>
                         </span>
                     </p>
                 </div>
-                <p class="help">Great note URL path is short and memorable. Need inspiration? How about <strong class="url-suggestion">fuzzy-succotash</strong>?</p>
+                <p class="help custom-url">Great note URL path is short and memorable. Need inspiration? How about <strong class="url-suggestion">fuzzy-succotash</strong>?</p>
             </div>
 
         </div>
@@ -170,5 +226,50 @@
             $passwordInput.attr('type', 'password');
             $icon.attr('data-icon', 'eye');
         });
+
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 800;  //time in ms, 800 milliseconds for example
+        var $urlInput = $('input[name=url]');
+
+        //on keyup, start the countdown
+        $urlInput.on('keyup', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        });
+
+        //on keydown, clear the countdown
+        $urlInput.on('keydown', function (e) {
+            var code = e.which;
+            if ( code === 13 || code === 9 ) {
+                e.preventDefault();
+            }
+            $('.control-url-customize').removeClass('is-loading');
+            $('.control-url-customize').find('.icon.is-right').addClass('is-hidden');
+            clearTimeout(typingTimer);
+        });
+
+        //user is "finished typing," do something
+        function doneTyping () {
+            $('.control-url-customize').addClass('is-loading');
+            setTimeout(function () {
+                var urlPath = $urlInput.val();
+
+                $.get('/check/url-available?id=' + urlPath, function (response) {
+                    if (response.error) {
+                        return;
+                    }
+                    if (response.exits) {
+                        $('p.help.custom-url').html(response.message);
+                        return;
+                    }
+
+                    $('p.help.custom-url').html(response.message);
+                    $('.control-url-customize').find('.icon.is-right').removeClass('is-hidden')
+                }).always(function() {
+                    $('.control-url-customize').removeClass('is-loading');
+                });
+            }, 500);
+
+        }
     </script>
 {% endblock %}

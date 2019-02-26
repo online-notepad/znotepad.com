@@ -17,6 +17,7 @@ const moment = require('moment');
 const pdf = require('html-pdf');
 const md5 = require('md5');
 const cheerio = require('cheerio');
+const entities = require("entities");
 
 const PREFIX_NOTE_PASSWORD = "ng4WGrowth.ZNotepad.com";
 
@@ -234,6 +235,7 @@ app.route('/new-note')
             xmlMode: true
         });
         $content('a').attr('rel', 'nofollow');
+        const contentHtml = entities.decodeXML($content.html());
 
         let isPrivate = req.body.is_private;
         if (isPrivate) {
@@ -260,7 +262,7 @@ app.route('/new-note')
         const newNote = new NoteModel({
             title: title,
             slug_title: url,
-            content: $content.html(),
+            content: contentHtml,
             content_plaintext: contentPlaintext,
             visitor_count: 0,
             is_private: isPrivate,

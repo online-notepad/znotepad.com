@@ -29,21 +29,74 @@
             <div class="column is-12">
                 <div class="control">
                     <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
-                           class="input" type="text"
+                           class="input is-shadowless" type="text"
                            placeholder="Note Title">
                 </div>
             </div>
         </div>
         <div class="columns">
             <div class="column is-12">
-
-                <button type="submit" class="button is-primary"><i class="fas fa-save"></i>&nbsp; Save</button>
-                <br>
-                <label class="checkbox private-mode">
-                    <input name="is_private" type="checkbox" {% if note.is_private %} checked {% endif %}>
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <button id="saveNote" type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <p class="level-item is-hidden">
+                            <a data-target="#options" class="button collapse">Options &nbsp; <i class="fas fa-chevron-down"></i></a>
+                        </p>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <label class="checkbox private-mode noselect">
+                    <input name="is_private" type="checkbox">
                     Don't show note public
                 </label>
             </div>
+        </div>
+        <div class="columns" id="options" style="display: none;">
+            <div class="column is-12">
+                <label class="is-size-6">Optional Note Settings</label>
+                <hr style="margin-bottom: 12px; margin-top: 6px">
+                <label class="label">Password</label>
+                <div class="field has-addons">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="password" name="password" autocomplete="current-password" class="input is-shadowless" type="password" placeholder="Enter password protection">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="control noselect showHidePassword">
+                        <a class="button is-static">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </p>
+                </div>
+                <p class="help">Anyone who wants to access must enter a password.</p>
+                <br>
+                <label class="label">URL</label>
+                <div class="field has-addons">
+                    <p class="control">
+                        <a class="button is-static"><i class="fab fa-internet-explorer"></i> &nbsp; znotepad.com/notes/</a>
+                    </p>
+                    <p class="control has-icons-right is-expanded control-url-customize">
+                        <input class="input is-shadowless" type="text" placeholder="customize" name="url">
+                        <span class="icon is-small is-right is-hidden">
+                            <i style="color: #5ab034" class="fas fa-check"></i>
+                        </span>
+
+                        <span class="warning-suggestion is-hidden-mobile" style="display: none">
+                            Your new note will be created as <strong></strong>
+                        </span>
+                    </p>
+                </div>
+                <p class="help custom-url">Great note URL path is short and memorable. Need inspiration? How about <strong class="url-suggestion">fuzzy-succotash</strong>?</p>
+            </div>
+
         </div>
         <div class="columns has-background-light">
             <div class="column is-12">
@@ -52,7 +105,7 @@
                     <div class="control is-expanded">
                         <div class="control is-expanded has-icons-left has-icons-right">
                             <label>
-                                <input id="share-url" readonly class="input is-link" type="text" value="https://znotepad.com/notes/{{ note.slug_title }}">
+                                <input id="share-url" readonly class="input is-link noselect" type="text" value="https://znotepad.com/notes/{{ note.slug_title }}">
                             </label>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-link"></i>
@@ -121,11 +174,14 @@
             localStorage.setItem('auto_save_note', editor.root.innerHTML);
         });
 
-        document.getElementById("share-url").addEventListener("click", function () {
-            this.select();
-            document.execCommand('copy');
+        var clipboard = new ClipboardJS('#share-url', {
+            text: function (trigger) {
+                return $(trigger).val();
+            }
+        });
 
+        clipboard.on('success', function() {
             notie.alert({ type: 'info', text: 'Copied!', position: 'bottom', time: 2 }) // Hides after 2 seconds
-        })
+        });
     </script>
 {% endblock %}

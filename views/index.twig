@@ -21,20 +21,74 @@
             <div class="column is-12">
                 <div class="control">
                     <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
-                           class="input" type="text"
+                           class="input is-shadowless" type="text"
                            placeholder="Note Title">
                 </div>
             </div>
         </div>
         <div class="columns">
             <div class="column is-12">
-                <button id="saveNote" type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
-                <br>
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <button id="saveNote" type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <p class="level-item is-hidden">
+                            <a data-target="#options" class="button collapse">Options &nbsp; <i class="fas fa-chevron-down"></i></a>
+                        </p>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
                 <label class="checkbox private-mode">
                     <input name="is_private" type="checkbox">
                     Don't show note public
                 </label>
             </div>
+        </div>
+        <div class="columns" id="options" style="display: none;">
+            <div class="column is-12">
+                <label class="is-size-6">Optional Note Settings</label>
+                <hr style="margin-bottom: 12px; margin-top: 6px">
+                <label class="label">Password</label>
+                <div class="field has-addons">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="password" name="password" autocomplete="current-password" class="input is-shadowless" type="password" placeholder="Enter password protection">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="control noselect showHidePassword">
+                        <a class="button is-static">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </p>
+                </div>
+                <p class="help">Anyone who wants to access must enter a password.</p>
+                <br>
+                <label class="label">URL</label>
+                <div class="field has-addons">
+                    <p class="control">
+                        <a class="button is-static"><i class="fab fa-internet-explorer"></i> &nbsp; znotepad.com/notes/</a>
+                    </p>
+                    <p class="control has-icons-right is-expanded control-url-customize">
+                        <input class="input is-shadowless" type="text" placeholder="customize" name="url">
+                        <span class="icon is-small is-right is-hidden">
+                            <i style="color: #5ab034" class="fas fa-check"></i>
+                        </span>
+
+                        <span class="warning-suggestion is-hidden-mobile" style="display: none">
+                            Your new note will be created as <strong></strong>
+                        </span>
+                    </p>
+                </div>
+                <p class="help custom-url">Great note URL path is short and memorable. Need inspiration? How about <strong class="url-suggestion">fuzzy-succotash</strong>?</p>
+            </div>
+
         </div>
         <div class="columns">
             <div class="column is-12">
@@ -86,5 +140,69 @@
             this.classList.add("is-loading");
             localStorage.removeItem("auto_save_note"); // TODO: Check condition execute it when save is successfully!
         });
+
+        $(".collapse").on('click', function (e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            $(target).slideToggle({duration: 200});
+        });
+
+        $('.showHidePassword').click(function () {
+            var $icon = $(this).find('svg');
+            var $passwordInput = $("#password");
+            var type = $passwordInput.attr('type');
+            if (type === 'password') {
+                $passwordInput.attr('type', 'text');
+                $icon.attr('data-icon', 'eye-slash');
+                return;
+            }
+            $passwordInput.attr('type', 'password');
+            $icon.attr('data-icon', 'eye');
+        });
+
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 800;  //time in ms, 800 milliseconds for example
+        var $urlInput = $('input[name=url]');
+
+        //on keyup, start the countdown
+        $urlInput.on('keyup', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        });
+
+        //on keydown, clear the countdown
+        $urlInput.on('keydown', function (e) {
+            var code = e.which;
+            if ( code === 13 || code === 9 ) {
+                e.preventDefault();
+            }
+            $('.control-url-customize').removeClass('is-loading');
+            $('.control-url-customize').find('.icon.is-right').addClass('is-hidden');
+            clearTimeout(typingTimer);
+        });
+
+        //user is "finished typing," do something
+        function doneTyping () {
+            $('.control-url-customize').addClass('is-loading');
+            setTimeout(function () {
+                var urlPath = $urlInput.val();
+
+                $.get('/check/url-available?id=' + urlPath, function (response) {
+                    if (response.error) {
+                        return;
+                    }
+                    if (response.exits) {
+                        $('p.help.custom-url').html(response.message);
+                        return;
+                    }
+
+                    $('p.help.custom-url').html(response.message);
+                    $('.control-url-customize').find('.icon.is-right').removeClass('is-hidden')
+                }).always(function() {
+                    $('.control-url-customize').removeClass('is-loading');
+                });
+            }, 500);
+
+        }
     </script>
 {% endblock %}

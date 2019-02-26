@@ -88,7 +88,7 @@
             <div class="column is-12">
                 <div class="control">
                     <input maxlength="70" autocomplete="off" value="{{ note.title }}" name="title"
-                           class="input" type="text"
+                           class="input is-shadowless" type="text"
                            placeholder="Note Title">
                 </div>
             </div>
@@ -98,11 +98,11 @@
                 <nav class="level is-mobile">
                     <div class="level-left">
                         <div class="level-item">
-                            <button type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
+                            <button id="saveNote" type="submit" class="button is-primary"><i class="far fa-save"></i> &nbsp; Save</button>
                         </div>
                     </div>
                     <div class="level-right">
-                        <p class="level-item">
+                        <p class="level-item is-hidden">
                             <a data-target="#options" class="button collapse">Options &nbsp; <i class="fas fa-chevron-down"></i></a>
                         </p>
                     </div>
@@ -111,7 +111,7 @@
         </div>
         <div class="columns">
             <div class="column is-12">
-                <label class="checkbox private-mode">
+                <label class="checkbox private-mode noselect">
                     <input name="is_private" type="checkbox">
                     Don't show note public
                 </label>
@@ -206,6 +206,11 @@
             document.getElementById('content').value = editor.root.innerHTML;
             document.getElementById('content-plaintext').value = editor.getText();
             localStorage.setItem('auto_save_note', editor.root.innerHTML);
+        });
+
+        document.getElementById("saveNote").addEventListener("click", function () {
+            this.classList.add("is-loading");
+            localStorage.removeItem("auto_save_note"); // TODO: Check condition execute it when save is successfully!
         });
 
         $(".collapse").on('click', function (e) {

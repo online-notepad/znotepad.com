@@ -66,6 +66,10 @@
             color: #4a4a4a;
         }
 
+        section.main {
+            background-color: #f9f9fa;
+        }
+
         #editor-container {
             height: 350px;
             font-size: 14px;
@@ -111,6 +115,28 @@
 
         .is-size-8 {
             font-size: 15px;
+        }
+
+        #toolbar.ql-toolbar {
+            border-bottom: 0;
+            background-color: #fafafa;
+        }
+
+        .box-newest-note .box {
+            box-shadow: 3px 3px 0 #bababa;
+            border: 1px solid #d6d6d6;
+        }
+
+        @media screen and (min-width: 769px), print {
+            .column.box-newest-note {
+                padding-left: 25px;
+            }
+        }
+
+        @media screen and (min-width: 1088px) {
+            .column.box-newest-note {
+                padding-left: 25px;
+            }
         }
 
     </style>
@@ -199,14 +225,14 @@
     </div>
 </section>
 
-<section class="section">
+<section class="section main">
     <div class="container">
         <form action="/new-note" method="post">
             <div class="columns">
                 <input type="hidden" name="_csrf" value="{{ _csrf }}">
                 {% block editor %} {% endblock %}
 
-                <div class="column is-4">
+                <div class="column is-4 box-newest-note">
                     <div class="sticky-sidebar">
                         <div class="sticky-sidebar__inner">
                             <div class="field">

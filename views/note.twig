@@ -24,11 +24,18 @@
         .content-wrapper {
             font-size: 14px;
         }
+
+        .box__note_content {
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 3px 3px 0 #bababa;
+            border: 1px solid #d6d6d6;
+        }
     </style>
 {% endblock %}
 
 {% block editor %}
-    <div class="column is-8">
+    <div class="column is-8 box__note_content">
         {% include 'partials/flash-message.twig' %}
 
         <div class="columns has-background-light">

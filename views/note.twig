@@ -31,6 +31,10 @@
             box-shadow: 3px 3px 0 #bababa;
             border: 1px solid #d6d6d6;
         }
+
+        .ql-editor {
+            padding: 0 !important;
+        }
     </style>
 {% endblock %}
 
@@ -73,7 +77,7 @@
         <div class="columns">
             <div class="column is-12">
                 <p class="title is-size-4 is-spaced">{{ note.title }}</p>
-                <div class="ql-snow box content-wrapper">
+                <div class="ql-snow content-wrapper">
                     <div class="ql-editor">{{ note.content | safe }}</div>
                     <hr>
                     <nav class="level is-mobile">

@@ -76,9 +76,8 @@
         }
 
         article.post {
-            margin: 1rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #E6EAEE;
+            border-bottom: 1px dotted #E6EAEE;
         }
 
         article.post a {
@@ -102,7 +101,6 @@
         }
 
         .sticky-sidebar {
-            min-height: 100%;
             position: relative;
         }
 
@@ -110,7 +108,7 @@
             /*position: fixed;*/
             position: relative;
             transition: width .45s cubic-bezier(.23,1,.32,1) 0ms;
-            padding-bottom: 30px;
+            padding-bottom: 25px;
         }
 
         .is-size-8 {
@@ -232,7 +230,7 @@
                 <input type="hidden" name="_csrf" value="{{ _csrf }}">
                 {% block editor %} {% endblock %}
 
-                <div class="column is-4 box-newest-note">
+                <div class="column is-3 box-newest-note">
                     <div class="sticky-sidebar">
                         <div class="sticky-sidebar__inner">
                             <div class="field">
@@ -253,6 +251,7 @@
                             </div>
                         </div>
                     </div>
+                    <img style="width: 100%;" src="https://i.giphy.com/media/acj7QJGgBBeUg/giphy.gif" alt="Face on coding" rel="nofollow">
                 </div>
             </div>
         </form>

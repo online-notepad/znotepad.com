@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
-{% set title = (note.title | trim | default('Untitled', true)) + ' - ZNotepad.com' | safe %}
-{% set description = note.content_plaintext | truncate(150) | safe | striptags %}
+{% set title = (note.title | trim | default('Untitled', true)) + ' - ZNotepad.com' %}
+{% set description = note.content_plaintext | truncate(150) | striptags %}
 
 {% set url = "https://znotepad.com/notes/" + note.slug_title %}
 
@@ -137,7 +137,7 @@
                     <input id="content-plaintext" name="content_plaintext" type="hidden">
                     <input id="content" name="content" type="hidden">
                     <input name="base_note" type="hidden">
-                    <div id="editor-container">{{ note.content | safe }}</div>
+                    <div id="editor-container">{{ note.content }}</div>
                 </div>
             </div>
         </div>

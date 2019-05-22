@@ -3,12 +3,12 @@
 {% set url = "https://znotepad.com/notes/" + note.slug_title %}
 
 {% if note.title %}
-    {% set title = note.title | trim | safe + ' - ZNotepad.com' %}
+    {% set title = note.title | trim + ' - ZNotepad.com' %}
 {% else %}
     {% set title = 'Untitled - ZNotepad.com' %}
 {% endif %}
 
-{% set description = note.content_plaintext | truncate(150) | safe | striptags %}
+{% set description = note.content_plaintext | truncate(150) | striptags %}
 
 {% block SEO %}
     <meta property="ia:markup_url" content="https://znotepad.com/notes/{{ note.slug_title }}">
@@ -78,7 +78,7 @@
             <div class="column is-12">
                 <p class="title is-size-4 is-spaced">{{ note.title }}</p>
                 <div class="ql-snow content-wrapper">
-                    <div class="ql-editor">{{ note.content | safe }}</div>
+                    <div class="ql-editor">{{ note.content }}</div>
                     <hr>
                     <nav class="level is-mobile">
                         <div class="level-left"></div>

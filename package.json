@@ -50,7 +50,7 @@
     "csurf": "^1.9.0",
     "dotenv": "^8.0.0",
     "entities": "^1.1.2",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-session": "^1.15.6",
     "helmet": "^3.15.1",
     "html-pdf": "^2.2.0",

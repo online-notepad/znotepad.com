@@ -40,7 +40,7 @@
     "url": "https://github.com/haipc/znotepad.com.git"
   },
   "dependencies": {
-    "bluebird": "^3.5.3",
+    "bluebird": "^3.7.0",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
